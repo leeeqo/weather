@@ -1,0 +1,36 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /weather
+
+spring:
+  application:
+    name: weather
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/postgres-weather
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    generate-ddl: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        format_sql: true
+  liquibase:
+    change-log: db/changelog.xml
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    cache: false
+
+hash:
+  bcrypt:
+    minor: b
+    rounds: 12
+
+openWeather:
+  APIKey: ${OPEN_WEATHER_APIKEY}

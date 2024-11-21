@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="create_table_genre" author="mediaSoft">
+        <createTable tableName="users">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="login" type="varchar">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="password" type="varchar">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <createTable tableName="locations">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="name" type="varchar">
+                <constraints nullable="false" />
+            </column>
+            <column name="user_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_locations_users" references="users(id)" />
+            </column>
+            <column name="latitude" type="decimal">
+                <constraints nullable="false" />
+            </column>
+            <column name="longitude" type="decimal">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <createTable tableName="sessions">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" />
+            </column>
+            <column name="user_id" type="int">
+                <constraints nullable="false" foreignKeyName="fk_sessions_users" references="users(id)" />
+            </column>
+            <column name="expires_at" type="datetime">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
