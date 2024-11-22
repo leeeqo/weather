@@ -77,10 +77,6 @@ public class JsonUtils {
             weatherDTO.setDescription(weatherNode.get("weather").get(0).get("description").asText());
             weatherDTO.setIcon(weatherNode.get("weather").get(0).get("icon").asText());
 
-            //weatherDTO.setMain("Main_Test");
-            //weatherDTO.setDescription("Description_Test");
-            //weatherDTO.setIcon("01d");
-
             weatherDTO.setTemperature(weatherNode.get("main").get("temp").asDouble());
             weatherDTO.setFeelsLike(weatherNode.get("main").get("feels_like").asDouble());
             weatherDTO.setPressure(weatherNode.get("main").get("pressure").asDouble());
