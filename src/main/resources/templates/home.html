@@ -13,19 +13,18 @@
 <body>
 <div th:replace="~{header-component}"></div>
 <div class="container min-vh-100">
-    <h2>Current Weather</h2>
-    <div class="container-fluid" th:if="${locationWeatherMap}">
-        <div class="row">
-            <div class="card m-2" style="width: 30rem" th:each="item : ${locationWeatherMap}">
+    <div class="container-fluid" th:if="${userLocationsWeather}">
+        <div class="row" th:unless="${userLocationsWeather.locationWeatherMap.isEmpty()}">
+            <div class="card m-2" style="width: 30rem" th:each="item : ${userLocationsWeather.locationWeatherMap}">
                 <div class="card-body">
                     <div class="container">
                         <div class="row">
                             <div class="col-10">
                                 <h4 class="card-title" th:text="${item.key.name}">Location</h4>
-                                <h6 class="text-muted card-subtitle mb-3"
-                                    th:text="${#dates.format(item.value.date, 'HH:mm:ss')}">Time</h6>
+                                <!--<h6 class="text-muted card-subtitle mb-3"
+                                    th:text="${#dates.format(item.value.date, 'HH:mm:ss')}">Time</h6>-->
                             </div>
-                            <div class="col-2">
+                            <!--<div class="col-2">
                                 <div class="dropdown">
                                     <button aria-expanded="false" class="btn" data-bs-toggle="dropdown"
                                             style="opacity: 1;" type="button">
@@ -44,27 +43,27 @@
                                         </form>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                     <div class="container">
                         <div class="row mb-2">
                             <div class="col-md-6 text-start align-self-center">
                                 <img alt="weather-image" class="card-img-top"
-                                     th:src="@{'/img/' + ${item.value.weatherCondition} + '-' + ${item.value.timeOfDay} + '.svg'}">
+                                     th:src="@{'/img/weather/' + ${item.value.icon} + '.png'}">
                             </div>
                             <div class="col-md-6 text-end align-self-center">
-                                <h1 class="text-primary" th:text="${item.value.temperature} + '°C'"></h1>
-                                <p th:text="'Feels like ' + ${item.value.temperatureFeelsLike} + '°C'"></p>
+                                <h1 class="text-primary" th:text="${item.value.temperature} + 'K'"></h1>
+                                <p th:text="'Feels like ' + ${item.value.feelsLike} + 'K'"></p>
                             </div>
                         </div>
                     </div>
-                    <p class="fs-5 fw-semibold" th:text="${#strings.capitalize(item.value.description)}">
-                    <div class="container mb-3">
+                    <p class="fs-5 fw-semibold" th:text="${#strings.capitalize(item.value.main)}">
+                    <!--<div class="container mb-3">
                         <div class="row">
                             <div class="col-md-6">
                                 <ul class="list-group">
-                                    <li class="list-group-item">
+                                    <!<li class="list-group-item">
                                         <i class="fas fa-temperature-low"
                                            style="margin-right: 4px;width: 20px;"></i>
                                         <span th:text="'Min ' + ${item.value.temperatureMinimum} + '°C'"></span>
@@ -124,18 +123,25 @@
                                 </ul>
                             </div>
                         </div>
-                    </div>
-                    <a class="btn btn-primary" role="button"
-                       th:href="@{/forecast(locationId=${item.key.id})}">Forecast</a>
+                    </div>-->
+                    <!--<a class="btn btn-primary" role="button"
+                       th:href="@{/forecast(locationId=${item.key.id})}">Forecast</a>-->
                 </div>
             </div>
         </div>
+        <div class="container d-flex justify-content-between align-items-center flex-column"
+             th:if="${userLocationsWeather.locationWeatherMap.isEmpty()}">
+            <img alt="missing data" th:src="@{/img/missing-data.jpg}"><br>
+            <p class="fw-bold">You added no locations.</p>
+            <p>Add a location using search bar to track its weather.</p>
+        </div>
     </div>
     <div class="container d-flex justify-content-between align-items-center flex-column"
-         th:unless="${locationWeatherMap}">
-        <img alt="missing data" th:src="@{/img/missing-data.svg}">
-        <p class="fw-bold">Location Required for Weather Information</p>
-        <p>Please add a location to view weather. You can do it by using the search bar above.</p>
+         th:unless="${userLocationsWeather}">
+        <img alt="welcome" th:src="@{/img/welcome.jpg}"><br>
+        <p class="fw-bold">Welcome to Weather App!</p>
+        <p>You can use search bar to see weather for specific location.</p>
+        <p>Moreover you can create an account to track weather for saved locations.</p>
     </div>
 </div>
 <div th:replace="~{footer-component}"></div>

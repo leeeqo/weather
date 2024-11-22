@@ -24,7 +24,7 @@ public class AuthService {
     @Autowired
     private UserRepository userRepository;
 
-    public Integer getSessionId(UserDTO userDTO) {
+    public Integer verifyUser(UserDTO userDTO) {
         String login = userDTO.getLogin();
         String password = userDTO.getPassword();
 
@@ -48,22 +48,29 @@ public class AuthService {
 
             Optional<Session> optionalSession = sessionRepository.findByUser(user);
 
-            if (optionalSession.isPresent() && optionalSession.get().getExpiresAt().isAfter(LocalDateTime.now())) {
-                System.out.println("Session is already in DB");
+            // TODO
+            if (optionalSession.isPresent()) {
+                if (optionalSession.get().getExpiresAt().isAfter(LocalDateTime.now())) {
+                    System.out.println("Delete session");
 
-                return optionalSession.get().getId();
-            } else {
-                System.out.println("Creating new session!");
+                    sessionRepository.delete(optionalSession.get());
+                } else {
+                    System.out.println("Session is already in DB");
 
-                Session session = Session.builder()
-                        .user(user)
-                        .expiresAt(LocalDateTime.now().plusDays(LIFE_DAYS))
-                        .build();
-
-                Session saved = sessionRepository.save(session);
-
-                return saved.getId();
+                    return optionalSession.get().getId();
+                }
             }
+
+            System.out.println("Creating new session!");
+
+            Session session = Session.builder()
+                    .user(user)
+                    .expiresAt(LocalDateTime.now().plusDays(LIFE_DAYS))
+                    .build();
+
+            Session saved = sessionRepository.save(session);
+
+            return saved.getId();
         } else {
             System.out.println("Throwing exception");
 
@@ -71,7 +78,7 @@ public class AuthService {
         }
     }
 
-    public Integer getSignUpSessionId(UserDTO userDTO) {
+    public Integer registerUser(UserDTO userDTO) {
         String login = userDTO.getLogin();
         String password = userDTO.getPassword();
 
@@ -79,7 +86,6 @@ public class AuthService {
 
         if (optional.isPresent()) {
             // TODO
-
             throw new ApplicationException("User with login " + login + " already exists");
         }
 
@@ -100,5 +106,17 @@ public class AuthService {
         Session savedSession = sessionRepository.save(session);
 
         return savedSession.getId();
+    }
+
+    public void removeSession(String sessionId) {
+        Session session = sessionRepository.findById(Integer.parseInt(sessionId))
+                .orElseThrow(() -> new ApplicationException("Session not found"));
+
+        if (session.getExpiresAt().isBefore(LocalDateTime.now())) {
+            // TODO
+            throw new ApplicationException("Session is expired.");
+        }
+
+        sessionRepository.delete(session);
     }
 }

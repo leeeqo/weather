@@ -3,8 +3,6 @@ package com.oli.weather.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -25,8 +23,8 @@ public class Location {
     private User user;
 
     @Column(name = "latitude", nullable = false)
-    private BigDecimal latitude;
+    private Double latitude;
 
     @Column(name = "longitude", nullable = false)
-    private BigDecimal longitude;
+    private Double longitude;
 }
