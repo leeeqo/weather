@@ -38,4 +38,5 @@ openWeather:
 logging:
   level:
     org.springframework.web: "debug"
-    org.hibernate: "debug"
+    org.hibernate:
+      SQL: "debug"

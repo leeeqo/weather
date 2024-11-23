@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,10 +24,10 @@ public class OpenWeatherService {
         return openWeatherClient.findLocationsByName(locationName);
     }
 
-    public Map<LocationDTO, WeatherDTO> getLocationWeatherMap(User user) {
+    public Map<Location, WeatherDTO> getLocationWeatherMap(User user) {
         return user.getLocations().stream()
                 .collect(
-                        Collectors.toMap(this::locationToLocationDTO, this::getWeatherForLocation)
+                        Collectors.toMap(Function.identity(), this::getWeatherForLocation)
                 );
     }
 

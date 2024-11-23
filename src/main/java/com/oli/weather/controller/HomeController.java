@@ -2,6 +2,7 @@ package com.oli.weather.controller;
 
 import com.oli.weather.dto.LocationDTO;
 import com.oli.weather.dto.WeatherDTO;
+import com.oli.weather.entity.Location;
 import com.oli.weather.entity.User;
 import com.oli.weather.service.OpenWeatherService;
 import com.oli.weather.service.UserService;
@@ -37,7 +38,7 @@ public class HomeController {
         log.debug("SessionId = " + sessionId);
 
         User user = null;
-        Map<LocationDTO, WeatherDTO> locationWeatherMap = null;
+        Map<Location, WeatherDTO> locationWeatherMap = null;
 
         if (sessionId != null) {
             user = userService.getUserBySessionId(sessionId);

@@ -24,7 +24,7 @@
                                 <!--<h6 class="text-muted card-subtitle mb-3"
                                     th:text="${#dates.format(item.value.date, 'HH:mm:ss')}">Time</h6>-->
                             </div>
-                            <!--<div class="col-2">
+                            <div class="col-2">
                                 <div class="dropdown">
                                     <button aria-expanded="false" class="btn" data-bs-toggle="dropdown"
                                             style="opacity: 1;" type="button">
@@ -37,13 +37,13 @@
                                         </svg>
                                     </button>
                                     <div class="dropdown-menu">
-                                        <form method="post">
+                                        <form method="post" th:action="@{/location/delete}">
                                             <input name="locationId" th:value="${item.key.id}" type="hidden">
                                             <button class="dropdown-item" type="submit">Delete</button>
                                         </form>
                                     </div>
                                 </div>
-                            </div>-->
+                            </div>
                         </div>
                     </div>
                     <div class="container">

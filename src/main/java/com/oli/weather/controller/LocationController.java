@@ -20,8 +20,8 @@ import java.util.List;
 import static com.oli.weather.utils.RequestUtils.getSessionCookie;
 
 @Controller
-@RequestMapping("/search")
-public class SearchController {
+@RequestMapping("/location")
+public class LocationController {
 
     private static final String REDIRECT_HOME = "/weather/home";
 
@@ -34,7 +34,7 @@ public class SearchController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
+    @GetMapping("/search")
     public String getLocations(@RequestParam("locationName") String locationName,
                                HttpServletRequest request,
                                Model model) {
@@ -55,7 +55,7 @@ public class SearchController {
         return "locations";
     }
 
-    @PostMapping
+    @PostMapping("/track")
     public void trackLocation(Location location,
                               HttpServletRequest request,
                               HttpServletResponse response) throws IOException {
@@ -64,10 +64,27 @@ public class SearchController {
 
         if (sessionId == null) {
             // TODO
-            throw new ApplicationException("Not authorized. Impossible to sign out");
+            throw new ApplicationException("Not authorized. Impossible to track location");
         }
 
         locationService.addLocation(sessionId, location);
+
+        response.sendRedirect(REDIRECT_HOME);
+    }
+
+    @PostMapping("/delete")
+    public void deleteLocation(String locationId,
+                               HttpServletRequest request,
+                               HttpServletResponse response) throws IOException {
+
+        String sessionId = getSessionCookie(request);
+
+        if (sessionId == null) {
+            // TODO
+            throw new ApplicationException("Not authorized. Impossible to delete location");
+        }
+
+        locationService.deleteLocation(locationId);
 
         response.sendRedirect(REDIRECT_HOME);
     }

@@ -38,4 +38,8 @@ public class LocationService {
 
         locationRepository.save(location);
     }
+
+    public void deleteLocation(String locationId) {
+        locationRepository.deleteById(Integer.parseInt(locationId));
+    }
 }
