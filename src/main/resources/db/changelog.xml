@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="create_table_genre" author="mediaSoft">
+    <changeSet id="init-tables" author="oli">
         <createTable tableName="users">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" />
@@ -47,5 +47,13 @@
                 <constraints nullable="false" />
             </column>
         </createTable>
+
+        <addUniqueConstraint tableName="locations"
+                             columnNames="user_id, latitude, longitude"
+                             constraintName="unique-user_id-latitude-longitude" />
+
+        <addUniqueConstraint tableName="sessions"
+                             columnNames="user_id"
+                             constraintName="unique-user_id"/>
     </changeSet>
 </databaseChangeLog>
