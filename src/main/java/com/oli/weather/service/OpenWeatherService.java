@@ -14,8 +14,13 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static com.oli.weather.utils.MathUtils.convertKelvinToCelsius;
+import static com.oli.weather.utils.MathUtils.round;
+
 @Service
 public class OpenWeatherService {
+
+    private static final int ROUNDING_PLACES = 1;
 
     @Autowired
     private OpenWeatherClient openWeatherClient;
@@ -34,16 +39,13 @@ public class OpenWeatherService {
     private WeatherDTO getWeatherForLocation(Location location) {
         WeatherDTO weatherDTO = openWeatherClient.findWeatherByLocation(location);
 
+        weatherDTO.setTemperature(
+                convertKelvinToCelsius(weatherDTO.getTemperature(), ROUNDING_PLACES));
+        weatherDTO.setFeelsLike(
+                convertKelvinToCelsius(weatherDTO.getFeelsLike(), ROUNDING_PLACES));
+
         weatherDTO.setDate(LocalDateTime.now());
 
         return weatherDTO;
-    }
-
-    private LocationDTO locationToLocationDTO(Location location) {
-        return LocationDTO.builder()
-                .name(location.getName())
-                .lat(location.getLatitude())
-                .lon(location.getLongitude())
-                .build();
     }
 }

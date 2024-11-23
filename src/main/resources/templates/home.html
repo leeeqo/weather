@@ -15,7 +15,7 @@
 <div class="container min-vh-100">
     <div class="container-fluid" th:if="${user}">
         <div class="row" th:unless="${locationWeatherMap.isEmpty()}">
-            <div class="card m-2" style="width: 30rem" th:each="item : ${locationWeatherMap}">
+            <div class="card m-1" style="width: 25rem" th:each="item : ${locationWeatherMap}">
                 <div class="card-body">
                     <div class="container">
                         <div class="row">
@@ -47,23 +47,28 @@
                         </div>
                     </div>
                     <div class="container">
-                        <div class="row mb-2">
+                        <div class="row mb-1">
                             <div class="col-md-6 text-start align-self-center">
                                 <img alt="weather-image" class="card-img-top"
                                      th:src="@{'/img/weather/' + ${item.value.icon} + '.png'}">
                             </div>
                             <div class="col-md-6 text-end align-self-center">
-                                <h1 class="text-primary" th:text="${item.value.temperature} + 'K'"></h1>
-                                <p th:text="'Feels like ' + ${item.value.feelsLike} + 'K'"></p>
+                                <h1 class="text-primary" th:text="${item.value.temperature} + 'ºC'"></h1>
+                                <!--<h3 class="card-title" th:text="${item.value.main}"></h3>-->
+                                <p th:text="'Feels like ' + ${item.value.feelsLike} + 'ºC'"></p>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <div class="col-10">
+                                <p class="fs-5 fw-semibold" th:text="${#strings.capitalize(item.value.description)}">
                             </div>
                         </div>
                     </div>
-                    <p class="fs-5 fw-semibold" th:text="${#strings.capitalize(item.value.main)}">
-                    <!--<div class="container mb-3">
+                    <div class="container mb-3">
                         <div class="row">
                             <div class="col-md-6">
                                 <ul class="list-group">
-                                    <!<li class="list-group-item">
+                                    <!--<li class="list-group-item">
                                         <i class="fas fa-temperature-low"
                                            style="margin-right: 4px;width: 20px;"></i>
                                         <span th:text="'Min ' + ${item.value.temperatureMinimum} + '°C'"></span>
@@ -72,14 +77,12 @@
                                         <i class="fas fa-cloud"
                                            style="margin-right: 4px;width: 20px;padding: 0px;font-size: 14px;"></i>
                                         <span th:text="'Clouds ' + ${item.value.cloudiness} + '%'"></span>
-                                    </li>
+                                    </li>-->
                                     <li class="list-group-item">
                                         <i class="fas fa-wind" style="margin-right: 5px;width: 20px;"></i>
-                                        <span th:text="|${item.value.windDirection}° ${item.value.windSpeed} km/h|"></span>
-                                        <span th:if="${item.value.windGust}"
-                                              th:text="|(Gust ${item.value.windGust} km/h)|"></span>
+                                        <span th:text="${item.value.windSpeed} + ' km/h'"></span>
                                     </li>
-                                    <li class="list-group-item">
+                                    <!--<li class="list-group-item">
                                         <svg class="bi bi-sunrise" fill="currentColor" height="1em"
                                              style="margin-right: 7px;width: 20px;margin-left: -2px;"
                                              viewBox="0 0 16 16" width="1em"
@@ -89,12 +92,12 @@
                                             </path>
                                         </svg>
                                         <span th:text="'Sunrise ' + ${#dates.format(item.value.sunrise, 'HH:mm:ss')}"></span>
-                                    </li>
+                                    </li>-->
                                 </ul>
                             </div>
                             <div class="col-md-6">
                                 <ul class="list-group">
-                                    <li class="list-group-item">
+                                    <!--<li class="list-group-item">
                                         <i class="fas fa-temperature-high"
                                            style="margin-right: 0px;width: 20px;"></i>
                                         <span th:text="'Max ' + ${item.value.temperatureMaximum} + '°C'"></span>
@@ -103,13 +106,13 @@
                                         <i class="icon ion-waterdrop"
                                            style="margin-right: 10px;width: 20px;font-size: 16px;"></i>
                                         <span th:text="'Humidity ' + ${item.value.humidity} + '%'"></span>
-                                    </li>
+                                    </li>-->
                                     <li class="list-group-item">
                                         <i class="fas fa-angle-double-down"
                                            style="margin-right: 0px;width: 20px;"></i>
-                                        <span th:text="'Pressure ' + ${item.value.pressure} + ' hPa'"></span>
+                                        <span th:text="${item.value.pressure} + ' hPa'"></span>
                                     </li>
-                                    <li class="list-group-item">
+                                    <!--<li class="list-group-item">
                                         <svg class="bi bi-sunset" fill="currentColor" height="1em"
                                              style="margin-right: 5px;width: 20px;margin-left: -5px;"
                                              viewBox="0 0 16 16" width="1em"
@@ -119,11 +122,11 @@
                                             </path>
                                         </svg>
                                         <span th:text="'Sunset ' + ${#dates.format(item.value.sunset, 'HH:mm:ss')}"></span>
-                                    </li>
+                                    </li>-->
                                 </ul>
                             </div>
                         </div>
-                    </div>-->
+                    </div>
                     <!--<a class="btn btn-primary" role="button"
                        th:href="@{/forecast(locationId=${item.key.id})}">Forecast</a>-->
                 </div>
