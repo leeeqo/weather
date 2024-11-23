@@ -2,9 +2,11 @@ package com.oli.weather.controller;
 
 import com.oli.weather.dto.LocationDTO;
 import com.oli.weather.entity.Location;
+import com.oli.weather.entity.User;
 import com.oli.weather.exception.ApplicationException;
 import com.oli.weather.service.LocationService;
 import com.oli.weather.service.OpenWeatherService;
+import com.oli.weather.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 import static com.oli.weather.utils.RequestUtils.getSessionCookie;
 
@@ -30,10 +31,25 @@ public class SearchController {
     @Autowired
     private LocationService locationService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping
-    public String getLocations(@RequestParam("locationName") String locationName, Model model) {
+    public String getLocations(@RequestParam("locationName") String locationName,
+                               HttpServletRequest request,
+                               Model model) {
+
+        String sessionId = getSessionCookie(request);
+
+        User user = null;
+
+        if (sessionId != null) {
+            user = userService.getUserBySessionId(sessionId);
+        }
+
         List<LocationDTO> locationDTOList = openWeatherService.getLocationsByName(locationName);
 
+        model.addAttribute("user", user);
         model.addAttribute("locations", locationDTOList);
 
         return "locations";
@@ -44,14 +60,12 @@ public class SearchController {
                               HttpServletRequest request,
                               HttpServletResponse response) throws IOException {
 
-        Optional<String> optionalSessionId = getSessionCookie(request);
+        String sessionId = getSessionCookie(request);
 
-        if (optionalSessionId.isEmpty()) {
+        if (sessionId == null) {
             // TODO
             throw new ApplicationException("Not authorized. Impossible to sign out");
         }
-
-        Integer sessionId = Integer.parseInt(optionalSessionId.get());
 
         locationService.addLocation(sessionId, location);
 

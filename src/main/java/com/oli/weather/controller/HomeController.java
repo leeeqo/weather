@@ -1,44 +1,49 @@
 package com.oli.weather.controller;
 
-import com.oli.weather.dto.UserLocationsWeatherDTO;
-import com.oli.weather.service.HomeService;
+import com.oli.weather.dto.LocationDTO;
+import com.oli.weather.dto.WeatherDTO;
+import com.oli.weather.entity.User;
+import com.oli.weather.service.OpenWeatherService;
+import com.oli.weather.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.Optional;
+import java.util.Map;
 
 import static com.oli.weather.utils.RequestUtils.getSessionCookie;
 
 @Controller
 public class HomeController {
 
+    // TODO - 1) Unique Locations 2) Empty search result 3) Exceptions
+
     @Autowired
-    private HomeService homeService;
+    private UserService userService;
+
+    @Autowired
+    private OpenWeatherService openWeatherService;
 
     @GetMapping("/home")
     public String index(HttpServletRequest request, Model model) {
         System.out.println("IN HOME CONTROLLER");
 
-        Optional<String> optionalSessionId = getSessionCookie(request);
+        String sessionId = getSessionCookie(request);
 
-        System.out.println("Session Cookie? = " + optionalSessionId.isPresent());
+        System.out.println("Session Cookie? = " + sessionId);
 
-        UserLocationsWeatherDTO userLocationsWeatherDTO = null;
-        if (optionalSessionId.isPresent()) {
-            String sessionId = optionalSessionId.get();
+        User user = null;
+        Map<LocationDTO, WeatherDTO> locationWeatherMap = null;
 
-            // TODO
-            if (!sessionId.isEmpty()) {
-                userLocationsWeatherDTO = homeService.getUserLocationsWeather(sessionId);
-
-                System.out.println("HOME CONTROLLER: USER = " + userLocationsWeatherDTO.getUser());
-            }
+        if (sessionId != null) {
+            user = userService.getUserBySessionId(sessionId);
+            locationWeatherMap = openWeatherService.getLocationWeatherMap(user);
         }
 
-        model.addAttribute("userLocationsWeather", userLocationsWeatherDTO);
+        model.addAttribute("user", user);
+        model.addAttribute("locationWeatherMap", locationWeatherMap);
 
         return "home";
     }

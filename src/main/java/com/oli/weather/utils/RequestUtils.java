@@ -10,17 +10,19 @@ public class RequestUtils {
 
     private static final String SESSION_COOKIE_NAME = "sessionId";
 
-    public static Optional<String> getSessionCookie(HttpServletRequest request) {
+    public static String getSessionCookie(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
 
         if (cookies == null) {
-            return Optional.empty();
+            return null;
         }
 
-        Optional<Cookie> sessionId = Arrays.stream(cookies)
+        Optional<String> sessionId = Arrays.stream(cookies)
                 .filter(cookie -> SESSION_COOKIE_NAME.equals(cookie.getName()))
+                .map(Cookie::getValue)
+                .filter(value -> !value.isEmpty())
                 .findFirst();
 
-        return sessionId.map(Cookie::getValue);
+        return sessionId.orElse(null);
     }
 }

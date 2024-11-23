@@ -1,7 +1,6 @@
 package com.oli.weather.controller;
 
 import com.oli.weather.dto.UserDTO;
-import com.oli.weather.entity.User;
 import com.oli.weather.exception.ApplicationException;
 import com.oli.weather.service.AuthService;
 import jakarta.servlet.http.Cookie;
@@ -12,11 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import static com.oli.weather.utils.RequestUtils.getSessionCookie;
 import static com.oli.weather.utils.ValidationUtils.validateLoginAndPassword;
@@ -74,14 +70,14 @@ public class AuthController {
                         HttpServletRequest request,
                         HttpServletResponse response) throws IOException {
 
-        Optional<String> optionalSessionId = getSessionCookie(request);
+        String sessionId = getSessionCookie(request);
 
-        if (optionalSessionId.isEmpty()) {
+        if (sessionId == null) {
             // TODO
             throw new ApplicationException("Not authorized. Impossible to sign out");
         }
 
-        authService.removeSession(optionalSessionId.get());
+        authService.removeSession(sessionId);
 
         response.addCookie(new Cookie("sessionId", null));
 
