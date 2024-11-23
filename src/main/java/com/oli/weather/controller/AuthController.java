@@ -1,5 +1,6 @@
 package com.oli.weather.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import com.oli.weather.dto.UserDTO;
 import com.oli.weather.exception.ApplicationException;
 import com.oli.weather.service.AuthService;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import static com.oli.weather.utils.RequestUtils.getSessionCookie;
 import static com.oli.weather.utils.ValidationUtils.validateLoginAndPassword;
 
+@Slf4j
 @Controller
 public class AuthController {
 
@@ -37,6 +39,8 @@ public class AuthController {
 
             Integer sessionId = authService.verifyUser(userDTO);
 
+            log.info("User " + userDTO.getLogin() + " is verified");
+
             response.addCookie(new Cookie("sessionId", sessionId.toString()));
         } catch (ApplicationException e) {
             //TODO
@@ -56,6 +60,8 @@ public class AuthController {
             validateLoginAndPassword(userDTO);
 
             Integer sessionId = authService.registerUser(userDTO);
+
+            log.info("User " + userDTO.getLogin() + " is registered.");
 
             response.addCookie(new Cookie("sessionId", sessionId.toString()));
         } catch (ApplicationException e) {

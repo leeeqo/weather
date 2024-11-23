@@ -5,9 +5,11 @@ import com.oli.weather.entity.User;
 import com.oli.weather.exception.ApplicationException;
 import com.oli.weather.repository.SessionRepository;
 import com.oli.weather.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class UserService {
 
@@ -18,14 +20,13 @@ public class UserService {
     private SessionRepository sessionRepository;
 
     public User getUserBySessionId(String sessionId) {
-        System.out.println("SessionId = " + sessionId);
-        System.out.println("Integer sessionID = " + Integer.parseInt(sessionId));
+        log.debug("SessionId = " + sessionId);
 
         Session session = sessionRepository.findById(Integer.parseInt(sessionId))
                 .orElseThrow(() -> new ApplicationException("Session by id not found"));
 
-        System.out.println("SessionId = " + session.getId());
-        System.out.println("User is null? = " + (session.getUser() == null));
+        log.debug("SessionId = " + session.getId());
+        log.debug("User is null? = " + (session.getUser() == null));
 
         return userRepository.findById(session.getUser().getId())
                 .orElseThrow(() -> new ApplicationException("User for specified session not found"));

@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.oli.weather.dto.WeatherDTO;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.net.http.HttpResponse;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+@Slf4j
 public class JsonUtils {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
@@ -28,8 +30,8 @@ public class JsonUtils {
     public static <T> T readJsonFromResponse(HttpResponse<String> response, Class<T> valueType) {
         T obj = null;
         try {
-            System.out.println("IN READ JSON:");
-            System.out.println("Body = " + response.body());
+            log.debug("Reading JSON from HttpResponse.");
+            log.debug("Body = " + response.body());
 
             obj = OBJECT_MAPPER.readValue(response.body(), valueType);
         } catch (JsonProcessingException e) {

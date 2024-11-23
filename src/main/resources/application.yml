@@ -34,3 +34,8 @@ hash:
 
 openWeather:
   APIKey: ${OPEN_WEATHER_APIKEY}
+
+logging:
+  level:
+    org.springframework.web: "debug"
+    org.hibernate: "debug"

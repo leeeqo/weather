@@ -6,6 +6,7 @@ import com.oli.weather.entity.User;
 import com.oli.weather.service.OpenWeatherService;
 import com.oli.weather.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 import static com.oli.weather.utils.RequestUtils.getSessionCookie;
 
+@Slf4j
 @Controller
 public class HomeController {
 
@@ -27,12 +29,12 @@ public class HomeController {
     private OpenWeatherService openWeatherService;
 
     @GetMapping("/home")
-    public String index(HttpServletRequest request, Model model) {
-        System.out.println("IN HOME CONTROLLER");
+    public String homePage(HttpServletRequest request, Model model) {
+        log.debug("In HomeController");
 
         String sessionId = getSessionCookie(request);
 
-        System.out.println("Session Cookie? = " + sessionId);
+        log.debug("SessionId = " + sessionId);
 
         User user = null;
         Map<LocationDTO, WeatherDTO> locationWeatherMap = null;

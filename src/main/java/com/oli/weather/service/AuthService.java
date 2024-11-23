@@ -7,12 +7,14 @@ import com.oli.weather.exception.ApplicationException;
 import com.oli.weather.repository.SessionRepository;
 import com.oli.weather.repository.UserRepository;
 import com.password4j.Password;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class AuthService {
 
@@ -37,11 +39,11 @@ public class AuthService {
 
             boolean verified = Password.check(password, hashedDB).withBcrypt();
 
-            System.out.println("Verffied? = " + verified);
+            log.debug("User " + user.getLogin() + " verified? = " + verified);
 
             if (!verified) {
                 // TODO
-                System.out.println("Throwing exception");
+                log.debug("Throwing exception");
 
                 throw new ApplicationException();
             }
@@ -51,17 +53,18 @@ public class AuthService {
             // TODO
             if (optionalSession.isPresent()) {
                 if (optionalSession.get().getExpiresAt().isAfter(LocalDateTime.now())) {
-                    System.out.println("Delete session");
+                    log.debug("Session for user " + user.getLogin() + " is expired.");
+                    log.debug("Deleting session for user " + user.getLogin());
 
                     sessionRepository.delete(optionalSession.get());
                 } else {
-                    System.out.println("Session is already in DB");
+                    log.debug("Session for user " + user.getLogin() + " is active. Returning this session.");
 
                     return optionalSession.get().getId();
                 }
             }
 
-            System.out.println("Creating new session!");
+            log.debug("There is no session for user " + user.getLogin() + ". Creating new one.");
 
             Session session = Session.builder()
                     .user(user)
@@ -72,7 +75,7 @@ public class AuthService {
 
             return saved.getId();
         } else {
-            System.out.println("Throwing exception");
+            log.debug("Throwing exception");
 
             throw new ApplicationException();
         }
