@@ -30,6 +30,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
 
+	implementation("org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.4.RELEASE")
+
 	implementation("org.liquibase:liquibase-core")
 
 	//implementation("at.favre.lib:bcrypt:0.10.2")

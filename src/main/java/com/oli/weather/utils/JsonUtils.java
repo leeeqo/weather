@@ -12,8 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.net.http.HttpResponse;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Slf4j

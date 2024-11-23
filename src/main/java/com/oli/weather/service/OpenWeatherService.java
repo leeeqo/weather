@@ -2,13 +2,13 @@ package com.oli.weather.service;
 
 import com.oli.weather.client.OpenWeatherClient;
 import com.oli.weather.dto.LocationDTO;
-import com.oli.weather.dto.UserLocationsWeatherDTO;
 import com.oli.weather.dto.WeatherDTO;
 import com.oli.weather.entity.Location;
 import com.oli.weather.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -32,7 +32,11 @@ public class OpenWeatherService {
     }
 
     private WeatherDTO getWeatherForLocation(Location location) {
-        return openWeatherClient.findWeatherByLocation(location);
+        WeatherDTO weatherDTO = openWeatherClient.findWeatherByLocation(location);
+
+        weatherDTO.setDate(LocalDateTime.now());
+
+        return weatherDTO;
     }
 
     private LocationDTO locationToLocationDTO(Location location) {
