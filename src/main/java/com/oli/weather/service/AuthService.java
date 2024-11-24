@@ -1,11 +1,9 @@
 package com.oli.weather.service;
 
-import com.oli.weather.dto.UserDTO;
 import com.oli.weather.entity.Session;
 import com.oli.weather.entity.User;
 import com.oli.weather.exception.ApplicationException;
 import com.oli.weather.exception.user.AuthorizationException;
-import com.oli.weather.exception.user.InvalidDataException;
 import com.oli.weather.exception.user.NotFoundException;
 import com.oli.weather.exception.user.ResourceAlreadyExists;
 import com.oli.weather.repository.SessionRepository;
@@ -36,10 +34,10 @@ public class AuthService {
         String password = user.getPassword();
 
         user = userRepository.findByLogin(login)
-                .orElseThrow(() -> new NotFoundException("User with login + " + login + " not found.", "/sign-in"));
+                .orElseThrow(() -> new NotFoundException("User with login " + login + " not found.", "/sign-in"));
 
         if (!Password.check(password, user.getPassword()).withBcrypt()) {
-            log.debug("Invalid password for user " + login + ".");
+            log.debug("Wrong password for user " + login + ".");
 
             throw new AuthorizationException("Invalid password", HttpStatus.UNAUTHORIZED, "/sign-in");
         }
@@ -72,23 +70,11 @@ public class AuthService {
     }
 
     public Integer registerUser(User user) {
-        /*String login = userDTO.getLogin();
-        String password = userDTO.getPassword();
-
-        Optional<User> optional = userRepository.findByLogin(login);
-
-        if (optional.isPresent()) {
-            throw new ResourceAlreadyExists("User with login " + login + " already exists.");
-        }
-
-        User user = User.builder()
-                .login(login)
-                .password(Password.hash(password).withBcrypt().getResult())
-                .build();*/
-
         Optional<User> optional = userRepository.findByLogin(user.getLogin());
         if (optional.isPresent()) {
-            throw new ResourceAlreadyExists("...");
+            throw new ResourceAlreadyExists(
+                    "User with login " + user.getLogin() + " already exists.",
+                    "/sign-up");
         }
 
         user.setPassword(Password.hash(user.getPassword()).withBcrypt().getResult());
@@ -107,12 +93,7 @@ public class AuthService {
 
     public void removeSession(String sessionId) {
         Session session = sessionRepository.findById(Integer.parseInt(sessionId))
-                .orElseThrow(() -> new ApplicationException("Session not found"));
-
-        if (session.getExpiresAt().isBefore(LocalDateTime.now())) {
-            // TODO
-            throw new ApplicationException("Session is expired.");
-        }
+                .orElseThrow(() -> new ApplicationException("Session not found."));
 
         sessionRepository.delete(session);
     }

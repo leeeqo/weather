@@ -13,13 +13,13 @@ public class ApplicationException extends RuntimeException {
     public ApplicationException(String additionalMessage) {
         this.additionalMessage = additionalMessage;
         this.httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
-        this.returnPage = "error";
+        this.returnPage = "/home";
     }
 
     public ApplicationException(String additionalMessage, HttpStatus httpStatus) {
         this.additionalMessage = additionalMessage;
         this.httpStatus = httpStatus;
-        this.returnPage = "error";
+        this.returnPage = "/home";
     }
 
     public ApplicationException(String additionalMessage, HttpStatus httpStatus, String returnPage) {

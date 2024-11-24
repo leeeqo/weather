@@ -54,7 +54,7 @@ public class AuthController {
 
     @PostMapping("/sign-up")
     public void signUp(@ModelAttribute("user") User user, HttpServletResponse response) throws IOException {
-        //validateLoginAndPassword(user);
+        validateLoginAndPassword(user, "/sign-up");
 
         Integer sessionId = authService.registerUser(user);
 
@@ -72,7 +72,6 @@ public class AuthController {
         String sessionId = getSessionCookie(request);
 
         if (sessionId == null) {
-            // TODO
             throw new ApplicationException("Not authorized. Impossible to sign out");
         }
 

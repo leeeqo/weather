@@ -7,6 +7,9 @@ import com.oli.weather.exception.user.InvalidDataException;
 import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.http.HttpStatus;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class ValidationUtils {
 
     public static void validateLoginAndPassword(User user, String returnPage) {
@@ -18,7 +21,12 @@ public class ValidationUtils {
             throw new AuthorizationException("Password must be provided", HttpStatus.BAD_REQUEST, returnPage);
         }
 
-        if (!user.getPassword().matches("^(?=.*\\\\d)(?=.*[A-Z])(?=.*[a-z])([^\\\\s]){8,16}$")) {
+        //String regEx = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,16}$";
+        //Pattern pattern = Pattern.compile(regEx, Pattern.CASE_INSENSITIVE);
+        //Matcher matcher = pattern.matcher(user.getPassword());
+
+        if (!user.getPassword().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,16}$")) {
+        //if (!matcher.matches()) {
             throw new AuthorizationException("Password should contain:\n" +
                      "1 number,\n" +
                      "1 uppercase letter,\n" +

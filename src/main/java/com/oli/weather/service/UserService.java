@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Slf4j
 @Service
 public class UserService {
@@ -25,10 +27,16 @@ public class UserService {
         Session session = sessionRepository.findById(Integer.parseInt(sessionId))
                 .orElseThrow(() -> new ApplicationException("Session by id not found"));
 
+        if (session.getExpiresAt().isBefore(LocalDateTime.now())) {
+            log.info("Attempt to use expired session. Returning null user.");
+
+            return null;
+        }
+
         log.debug("SessionId = " + session.getId());
         log.debug("User is null? = " + (session.getUser() == null));
 
         return userRepository.findById(session.getUser().getId())
-                .orElseThrow(() -> new ApplicationException("User for specified session not found"));
+                .orElseThrow(() -> new ApplicationException("User for specified session not found."));
     }
 }
