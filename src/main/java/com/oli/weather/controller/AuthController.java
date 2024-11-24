@@ -1,5 +1,6 @@
 package com.oli.weather.controller;
 
+import com.oli.weather.entity.User;
 import lombok.extern.slf4j.Slf4j;
 import com.oli.weather.dto.UserDTO;
 import com.oli.weather.exception.ApplicationException;
@@ -8,7 +9,9 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,19 +36,14 @@ public class AuthController {
     }
 
     @PostMapping("/sign-in")
-    public void signIn(@ModelAttribute("user") UserDTO userDTO, HttpServletResponse response) throws IOException {
-        try {
-            validateLoginAndPassword(userDTO);
+    public void signIn(@ModelAttribute("user") User user, Model model, HttpServletResponse response) throws IOException {
+        validateLoginAndPassword(user, "/sign-in");
 
-            Integer sessionId = authService.verifyUser(userDTO);
+        Integer sessionId = authService.verifyUser(user);
 
-            log.info("User " + userDTO.getLogin() + " is verified");
+        log.info("User " + user.getLogin() + " is verified");
 
-            response.addCookie(new Cookie("sessionId", sessionId.toString()));
-        } catch (ApplicationException e) {
-            //TODO
-        }
-
+        response.addCookie(new Cookie("sessionId", sessionId.toString()));
         response.sendRedirect(REDIRECT_HOME);
     }
 
@@ -55,19 +53,14 @@ public class AuthController {
     }
 
     @PostMapping("/sign-up")
-    public void signUp(@ModelAttribute("user") UserDTO userDTO, HttpServletResponse response) throws IOException {
-        try {
-            validateLoginAndPassword(userDTO);
+    public void signUp(@ModelAttribute("user") User user, HttpServletResponse response) throws IOException {
+        //validateLoginAndPassword(user);
 
-            Integer sessionId = authService.registerUser(userDTO);
+        Integer sessionId = authService.registerUser(user);
 
-            log.info("User " + userDTO.getLogin() + " is registered.");
+        log.info("User " + user.getLogin() + " is registered.");
 
-            response.addCookie(new Cookie("sessionId", sessionId.toString()));
-        } catch (ApplicationException e) {
-            // TODO
-        }
-
+        response.addCookie(new Cookie("sessionId", sessionId.toString()));
         response.sendRedirect(REDIRECT_HOME);
     }
 
