@@ -1,6 +1,7 @@
 package com.oli.weather.controller;
 
 import com.oli.weather.dto.LocationDTO;
+import com.oli.weather.dto.WeatherDTO;
 import com.oli.weather.entity.Location;
 import com.oli.weather.entity.User;
 import com.oli.weather.exception.ApplicationException;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import static com.oli.weather.utils.RequestUtils.getSessionCookie;
 
@@ -24,6 +26,7 @@ import static com.oli.weather.utils.RequestUtils.getSessionCookie;
 public class LocationController {
 
     private static final String REDIRECT_HOME = "/weather/home";
+    private static final String WEATHER_BY_LOCATION = "?name=%s&lat=%s&lon=%s";
 
     @Autowired
     private OpenWeatherService openWeatherService;
@@ -69,6 +72,18 @@ public class LocationController {
         locationService.addLocation(sessionId, location);
 
         response.sendRedirect(REDIRECT_HOME);
+    }
+
+    @PostMapping
+    public String locationWeather(Location location,
+                                Model model) throws IOException {
+
+        WeatherDTO weatherDTO = openWeatherService.getWeatherForLocation(location);
+
+        model.addAttribute("location", location);
+        model.addAttribute("weather", weatherDTO);
+
+        return "weather-by-location";
     }
 
     @PostMapping("/delete")

@@ -36,7 +36,7 @@ public class OpenWeatherService {
                 );
     }
 
-    private WeatherDTO getWeatherForLocation(Location location) {
+    public WeatherDTO getWeatherForLocation(Location location) {
         WeatherDTO weatherDTO = openWeatherClient.findWeatherByLocation(location);
 
         weatherDTO.setTemperature(
