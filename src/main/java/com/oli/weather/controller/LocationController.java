@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import static com.oli.weather.utils.RequestUtils.getSessionCookie;
 
@@ -26,7 +25,6 @@ import static com.oli.weather.utils.RequestUtils.getSessionCookie;
 public class LocationController {
 
     private static final String REDIRECT_HOME = "/weather/home";
-    private static final String WEATHER_BY_LOCATION = "?name=%s&lat=%s&lon=%s";
 
     @Autowired
     private OpenWeatherService openWeatherService;
@@ -94,7 +92,6 @@ public class LocationController {
         String sessionId = getSessionCookie(request);
 
         if (sessionId == null) {
-            // TODO
             throw new ApplicationException("Not authorized. Impossible to delete location");
         }
 

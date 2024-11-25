@@ -15,7 +15,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static com.oli.weather.utils.MathUtils.convertKelvinToCelsius;
-import static com.oli.weather.utils.MathUtils.round;
 
 @Service
 public class OpenWeatherService {

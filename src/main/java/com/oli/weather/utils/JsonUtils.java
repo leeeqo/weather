@@ -33,10 +33,7 @@ public class JsonUtils {
 
             obj = OBJECT_MAPPER.readValue(response.body(), valueType);
         } catch (JsonProcessingException e) {
-
-            // TODO
             throw new RuntimeException(e.getMessage());
-            //throw new IncorrectParameterException("Incorrect input data.");
         }
 
         return obj;
@@ -47,7 +44,6 @@ public class JsonUtils {
         try {
             lst = OBJECT_MAPPER.readValue(response.body(), new TypeReference<List<T>>() {});
         } catch (JsonProcessingException e) {
-            // TODO
             throw new RuntimeException(e);
         }
 
