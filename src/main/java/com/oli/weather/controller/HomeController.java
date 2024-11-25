@@ -22,7 +22,7 @@ import static com.oli.weather.utils.RequestUtils.getSessionCookie;
 @RequestMapping("/home")
 public class HomeController {
 
-    // TODO - 1) Unique Locations 2) Empty search result 3) Exceptions
+    // TODO - 1) Unique Locations 3) Exceptions
 
     @Autowired
     private UserService userService;
