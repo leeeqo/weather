@@ -53,6 +53,8 @@ public class OpenWeatherClient {
     }
 
     private HttpResponse<String> sendHttpRequest(String url) {
+        url = url.replaceAll(" ", "+");
+
         HttpRequest request = null;
         try {
             request = HttpRequest.newBuilder(new URI(url)).GET().build();
