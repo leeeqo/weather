@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -29,10 +31,14 @@ public class OpenWeatherService {
     }
 
     public Map<Location, WeatherDTO> getLocationWeatherMap(User user) {
-        return user.getLocations().stream()
-                .collect(
-                        Collectors.toMap(Function.identity(), this::getWeatherForLocation)
-                );
+        Map<Location, WeatherDTO> map = new TreeMap<>(Comparator.comparing(Location::getName));
+
+        map.putAll(user.getLocations().stream().collect(
+                        Collectors.toMap(
+                                Function.identity(),
+                                this::getWeatherForLocation)));
+
+        return map;
     }
 
     public WeatherDTO getWeatherForLocation(Location location) {

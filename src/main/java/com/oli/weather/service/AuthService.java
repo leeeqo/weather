@@ -11,6 +11,7 @@ import com.oli.weather.repository.UserRepository;
 import com.password4j.Password;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -70,16 +71,16 @@ public class AuthService {
     }
 
     public Integer registerUser(User user) {
-        Optional<User> optional = userRepository.findByLogin(user.getLogin());
-        if (optional.isPresent()) {
+        user.setPassword(Password.hash(user.getPassword()).withBcrypt().getResult());
+
+        User savedUser = null;
+        try {
+            savedUser = userRepository.save(user);
+        } catch (DataIntegrityViolationException e) {
             throw new ResourceAlreadyExists(
                     "User with login " + user.getLogin() + " already exists.",
                     "/sign-up");
         }
-
-        user.setPassword(Password.hash(user.getPassword()).withBcrypt().getResult());
-
-        User savedUser = userRepository.save(user);
 
         Session session = Session.builder()
                 .user(savedUser)

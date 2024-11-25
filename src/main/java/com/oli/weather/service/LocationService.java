@@ -4,11 +4,13 @@ import com.oli.weather.entity.Location;
 import com.oli.weather.entity.Session;
 import com.oli.weather.entity.User;
 import com.oli.weather.exception.ApplicationException;
+import com.oli.weather.exception.user.ResourceAlreadyExists;
 import com.oli.weather.repository.LocationRepository;
 import com.oli.weather.repository.SessionRepository;
 import com.oli.weather.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -26,17 +28,21 @@ public class LocationService {
 
     public void addLocation(String sessionId, Location location) {
         Session session = sessionRepository.findById(Integer.parseInt(sessionId))
-                .orElseThrow(() -> new ApplicationException("Session by id not found"));
+                .orElseThrow(() -> new ApplicationException("Session by id was not found"));
 
         log.debug("SessionId = " + sessionId);
         log.debug("User is null? = " + (session.getUser() == null));
 
         User user = userRepository.findById(session.getUser().getId())
-                .orElseThrow(() -> new ApplicationException("User for specified session not found"));
+                .orElseThrow(() -> new ApplicationException("User for specified session was not found"));
 
         location.setUser(user);
 
-        locationRepository.save(location);
+        try {
+            locationRepository.save(location);
+        } catch (DataIntegrityViolationException e) {
+            throw new ResourceAlreadyExists("Location is already tracked.", "/home");
+        }
     }
 
     public void deleteLocation(String locationId) {
