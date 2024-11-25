@@ -2,14 +2,12 @@ package com.oli.weather.controller;
 
 import com.oli.weather.entity.User;
 import lombok.extern.slf4j.Slf4j;
-import com.oli.weather.dto.UserDTO;
 import com.oli.weather.exception.ApplicationException;
 import com.oli.weather.service.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,8 +63,7 @@ public class AuthController {
     }
 
     @PostMapping("/sign-out")
-    public void signOut(@ModelAttribute("user") UserDTO userDTO,
-                        HttpServletRequest request,
+    public void signOut(HttpServletRequest request,
                         HttpServletResponse response) throws IOException {
 
         String sessionId = getSessionCookie(request);

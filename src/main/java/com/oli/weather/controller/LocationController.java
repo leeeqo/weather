@@ -63,7 +63,6 @@ public class LocationController {
         String sessionId = getSessionCookie(request);
 
         if (sessionId == null) {
-            // TODO
             throw new ApplicationException("Not authorized. Impossible to track location");
         }
 

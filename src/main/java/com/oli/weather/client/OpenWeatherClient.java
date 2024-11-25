@@ -1,9 +1,9 @@
 package com.oli.weather.client;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.oli.weather.dto.LocationDTO;
 import com.oli.weather.dto.WeatherDTO;
 import com.oli.weather.entity.Location;
+import com.oli.weather.exception.ApplicationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -57,7 +57,6 @@ public class OpenWeatherClient {
         try {
             request = HttpRequest.newBuilder(new URI(url)).GET().build();
         } catch (URISyntaxException e) {
-            //TODO
             throw new RuntimeException(e);
         }
 
@@ -65,8 +64,7 @@ public class OpenWeatherClient {
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            // TODO
-            throw new RuntimeException(e);
+            throw new ApplicationException("Error processing response from external API.");
         }
 
         return response;

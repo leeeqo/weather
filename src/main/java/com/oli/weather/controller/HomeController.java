@@ -1,6 +1,5 @@
 package com.oli.weather.controller;
 
-import com.oli.weather.dto.LocationDTO;
 import com.oli.weather.dto.WeatherDTO;
 import com.oli.weather.entity.Location;
 import com.oli.weather.entity.User;
