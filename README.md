@@ -34,7 +34,7 @@ Tech task: https://zhukovsd.github.io/java-backend-learning-course/projects/weat
 - Getting locations list with weather (only for authorized)
 - Deleting locations
 
-### In process:
+### In progress:
 
 - Dockerfile, docker.compose
 - Other tests
