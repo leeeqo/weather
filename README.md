@@ -1,5 +1,7 @@
 # Weather Project
 
+![weather_home](https://github.com/user-attachments/assets/b4fd0b87-fc80-4aee-ad0e-5370ec04685b)
+
 Web-application for weather tracking.
 User can authorize and add some locations to track its weather.
 User can also watch weather for specific location without authorization.
