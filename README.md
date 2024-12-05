@@ -18,6 +18,20 @@ Tech task: https://zhukovsd.github.io/java-backend-learning-course/projects/weat
 - Thymeleaf
 - Docker
 
+### How to run:
+
+- Open project in IDE.
+- In root directory create .env file with env variables:
+```
+POSTGRES_USERNAME=your_username 
+POSTGRES_PASSWORD=your_password
+```
+- Start PostgreSQL container via compose.yaml file.
+- Start WeatherApplication with environment variables:
+```
+POSTGRES_USERNAME=your_username;POSTGRES_PASSWORD=your_password;POSTGRES_URL=jdbc:postgresql://your_host:5432/postgres-weather;OPEN_WEATHER_APIKEY=your_api_key
+```
+
 ### Features:
 
 #### User:
