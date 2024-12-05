@@ -36,5 +36,5 @@ Tech task: https://zhukovsd.github.io/java-backend-learning-course/projects/weat
 
 ### In progress:
 
-- Dockerfile, docker.compose
 - Other tests
+- docker.compose - weather service
