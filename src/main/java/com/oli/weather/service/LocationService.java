@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 public class LocationService {
@@ -25,6 +27,10 @@ public class LocationService {
 
     @Autowired
     private LocationRepository locationRepository;
+
+    public List<Location> getAllLocations() {
+        return locationRepository.findAll();
+    }
 
     public void addLocation(String sessionId, Location location) {
         Session session = sessionRepository.findById(Integer.parseInt(sessionId))
