@@ -18,7 +18,7 @@ class ValidationUtilsTest {
             "t, aaaaa12Abkc",
             "123, ABCDEFg123"
     })
-    public void testCorrectUser(String login, String password) {
+    public void givenCorrectUser_whenValidate_thenDoNotThrowException(String login, String password) {
         User user = buildUser(login, password);
 
         assertDoesNotThrow(() -> validateLoginAndPassword(user, returnPageStub));
@@ -29,7 +29,7 @@ class ValidationUtilsTest {
             ", 123456aA",
             ", w"
     })
-    public void testIncorrectLogin(String login, String password) {
+    public void givenInvalidLogin_whenValidate_thenThrowException(String login, String password) {
         User user = buildUser(login, password);
 
         AuthorizationException ex = assertThrows(
@@ -53,7 +53,7 @@ class ValidationUtilsTest {
             "login, 1234aaaaAAAAbbbbBBBB",
             "login, "
     })
-    public void testIncorrectPassword(String login, String password) {
+    public void givenInvalidPassword_whenValidate_thenThrowException(String login, String password) {
         User user = buildUser(login, password);
 
         AuthorizationException ex = assertThrows(

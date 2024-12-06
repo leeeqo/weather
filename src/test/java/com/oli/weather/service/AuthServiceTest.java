@@ -47,7 +47,7 @@ class AuthServiceTest {
             .build();
 
     @Test
-    public void testVerifyUser_SessionIsNotPresent() {
+    public void givenNoSavedSession_whenVerifyUser_thenCreateNewSession() {
         User savedUser = User.builder()
                 .id(1)
                 .login(user.getLogin())
@@ -72,7 +72,7 @@ class AuthServiceTest {
     }
 
     @Test
-    public void testRegisterUser_SessionIsActive() {
+    public void givenNewUser_whenRegisterUser_thenSaveUserAndCreateNewSession() {
         User savedUser = User.builder()
                 .id(1)
                 .login(user.getLogin())
@@ -98,7 +98,7 @@ class AuthServiceTest {
     }
 
     @Test
-    public void testRegisterUser_SessionIsExpired() {
+    public void givenExpiredSession_whenVerifyUser_thenDeletingOldSessionAndCreateNewOne() {
         User savedUser = User.builder()
                 .id(1)
                 .login(user.getLogin())
@@ -135,7 +135,7 @@ class AuthServiceTest {
     }
 
     @Test
-    public void testRegisterUser_InvalidLogin() {
+    public void givenInvalidLogin_whenRegisterUser_thenThrowException() {
         when(userRepository.findByLogin(user.getLogin())).thenReturn(Optional.empty());
 
         NotFoundException ex = assertThrows(
@@ -148,7 +148,7 @@ class AuthServiceTest {
     }
 
     @Test
-    public void testRegisterUser_InvalidPassword() {
+    public void givenInvalidPassword_whenRegisterUser_thenThrowException() {
         User savedUser = User.builder()
                 .id(1)
                 .login(user.getLogin())
@@ -169,7 +169,7 @@ class AuthServiceTest {
     }
 
     @Test
-    public void testRegisterUser_ValidUser() {
+    public void givenValidUser_whenRegisterUser_thenSaveUserAndCreateNewSession() {
         User savedUser = User.builder()
                 .id(1)
                 .login(user.getLogin())
@@ -191,7 +191,7 @@ class AuthServiceTest {
     }
 
     @Test
-    public void testRegisterUser_LoginIsAlreadyInDB() {
+    public void givenExistedLogin_whenRegisterUser_thenThrowException() {
         when(userRepository.save(user)).thenThrow(DataIntegrityViolationException.class);
 
         ResourceAlreadyExists ex = assertThrows(

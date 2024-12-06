@@ -54,7 +54,7 @@ class LocationServiceTest {
             .build();
 
     @Test
-    public void testAddLocation_NoSessionId() {
+    public void givenInvalidSessionId_whenAddLocation_thenThrowException() {
         String sessionId = "1";
 
         Optional<Session> optionalSession = Optional.empty();
@@ -71,7 +71,7 @@ class LocationServiceTest {
     }
 
     @Test
-    public void testAddLocation_NoUserForSessionId() {
+    public void givenNoSavedUser_whenAddLocation_thenThrowException() {
         String sessionId = "1";
 
         Optional<Session> optionalSession = Optional.of(session);
@@ -91,7 +91,7 @@ class LocationServiceTest {
     }
 
     @Test
-    public void testAddLocation_LocationIsAlreadyTracked() {
+    public void givenTrackedLocation_whenAddLocation_thenThrowException() {
         String sessionId = "1";
 
         Optional<Session> optionalSession = Optional.of(session);
@@ -113,7 +113,7 @@ class LocationServiceTest {
     }
 
     @Test
-    public void testAddLocation_Ok() {
+    public void givenValidLocation_whenAddLocation_thenSaveLocation() {
         String sessionId = "1";
 
         Optional<Session> optionalSession = Optional.of(session);

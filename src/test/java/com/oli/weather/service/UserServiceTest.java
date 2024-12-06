@@ -42,7 +42,7 @@ class UserServiceTest {
             .build();
 
     @Test
-    public void testGetUserBySessionId_SessionNotFound() {
+    public void givenNoSavedSession_whenGetUserBySessionId_thenThrowException() {
         String sessionId = "1";
 
         Optional<Session> optionalSession = Optional.empty();
@@ -59,7 +59,7 @@ class UserServiceTest {
     }
 
     @Test
-    public void testGetUserBySessionId_SessionIsExpired() {
+    public void givenExpiredSession_whenGetUserBySessionId_thenReturnNull() {
         String sessionId = "1";
 
         session.setExpiresAt(LocalDateTime.now().minusHours(1));
@@ -72,7 +72,7 @@ class UserServiceTest {
     }
 
     @Test
-    public void testGetUserBySessionId_UserNotFound() {
+    public void givenNoSavedUser_whenGetUserBySessionId_thenThrowException() {
         String sessionId = "1";
 
         session.setExpiresAt(LocalDateTime.now().plusHours(1));
@@ -94,7 +94,7 @@ class UserServiceTest {
     }
 
     @Test
-    public void testGetUserBySessionId_ValidSessionId() {
+    public void givenValidSessionId_whenGetUserBySessionId_thenReturnUser() {
         String sessionId = "1";
 
         session.setExpiresAt(LocalDateTime.now().plusHours(1));
