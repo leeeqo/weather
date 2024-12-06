@@ -28,10 +28,6 @@ public class LocationService {
     @Autowired
     private LocationRepository locationRepository;
 
-    public List<Location> getAllLocations() {
-        return locationRepository.findAll();
-    }
-
     public void addLocation(String sessionId, Location location) {
         Session session = sessionRepository.findById(Integer.parseInt(sessionId))
                 .orElseThrow(() -> new ApplicationException("Session by id was not found"));

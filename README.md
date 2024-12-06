@@ -31,6 +31,7 @@ POSTGRES_PASSWORD=your_password
 ```
 POSTGRES_USERNAME=your_username;POSTGRES_PASSWORD=your_password;POSTGRES_URL=jdbc:postgresql://your_host:5432/postgres-weather;OPEN_WEATHER_APIKEY=your_api_key
 ```
+#### It's important to add these variables to Gradle Configuration Template too to be able to use gradle commands.
 
 ### Features:
 
