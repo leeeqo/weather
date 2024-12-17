@@ -52,4 +52,3 @@ POSTGRES_USERNAME=your_username;POSTGRES_PASSWORD=your_password;POSTGRES_URL=jdb
 ### In progress:
 
 - Other tests
-- docker.compose - weather service
