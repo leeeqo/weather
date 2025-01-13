@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    container_name: 'postgres-weather'
+    environment:
+      - 'POSTGRES_DB=postgres-weather'
+      - 'POSTGRES_USER=${POSTGRES_USERNAME}'
+      - 'POSTGRES_PASSWORD=${POSTGRES_PASSWORD}'
+      - 'POSTGRES_HOST_AUTH_METHOD=trust'
+    ports:
+      - '5432:5432'
+    volumes:
+      - /weather:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  weather:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: 'weather'
+    environment:
+      - 'POSTGRES_URL=jdbc:postgresql://postgres:5432/postgres-weather'
+      - 'POSTGRES_USERNAME=${POSTGRES_USERNAME}'
+      - 'POSTGRES_PASSWORD=${POSTGRES_PASSWORD}'
+      - 'OPEN_WEATHER_APIKEY=${OPEN_WEATHER_APIKEY}'
+    ports:
+      - '8080:8080'
+    restart: unless-stopped
+    depends_on:
+      - postgres
