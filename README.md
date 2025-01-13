@@ -21,17 +21,14 @@ Tech task: https://zhukovsd.github.io/java-backend-learning-course/projects/weat
 ### How to run:
 
 - Open project in IDE.
-- In root directory create .env file with env variables:
+- Set your variables in .env file:
 ```
-POSTGRES_USERNAME=your_username 
+POSTGRES_USERNAME=your_username
 POSTGRES_PASSWORD=your_password
+OPEN_WEATHER_APIKEY=your_key
 ```
-- Start PostgreSQL container via compose.yaml file.
-- Start WeatherApplication with environment variables:
-```
-POSTGRES_USERNAME=your_username;POSTGRES_PASSWORD=your_password;POSTGRES_URL=jdbc:postgresql://your_host:5432/postgres-weather;OPEN_WEATHER_APIKEY=your_api_key
-```
-#### It's important to add these variables to Gradle Configuration Template too to be able to use gradle commands.
+- Start PostgreSQL container via docker-compose.yaml file.
+- Start Weather container via docker-compose.yaml file.
 
 ### Features:
 
