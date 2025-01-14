@@ -6,7 +6,7 @@ Web-application for weather tracking.
 User can authorize and add some locations to track its weather.
 User can also watch weather for specific location without authorization.
 
-Tech task: https://zhukovsd.github.io/java-backend-learning-course/projects/weather-viewer/
+Tech task: [here](https://zhukovsd.github.io/java-backend-learning-course/projects/weather-viewer/)
 
 ### Stack:
 
@@ -21,7 +21,7 @@ Tech task: https://zhukovsd.github.io/java-backend-learning-course/projects/weat
 ### How to run:
 
 - Open project in IDE.
-- Set your variables in .env file:
+- Set your variables in .env file. To get API key you have to sign up on [openweathermap.org](https://openweathermap.org/):
 ```
 POSTGRES_USERNAME=your_username
 POSTGRES_PASSWORD=your_password
